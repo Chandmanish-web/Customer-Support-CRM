@@ -10,6 +10,14 @@ export default function Home() {
   const [status, setStatus] = useState("");
   const [error, setError] = useState("");
 
+  const statusCounts = tickets.reduce(
+    (acc, ticket) => {
+      acc[ticket.status] = (acc[ticket.status] || 0) + 1;
+      return acc;
+    },
+    { Open: 0, "In Progress": 0, Closed: 0 }
+  );
+
   useEffect(() => {
     // Debounce so we don't fire a request on every keystroke
     const timeout = setTimeout(() => {
@@ -38,11 +46,36 @@ export default function Home() {
     }
   }
 
+  function resetFilters() {
+    setSearch("");
+    setStatus("");
+  }
+
   return (
     <div>
-      <div className="flex items-center justify-between mb-4">
-        <h1 className="text-xl font-bold">All Tickets</h1>
-        <span className="text-sm text-gray-500">{tickets.length} ticket(s)</span>
+      <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between mb-4">
+        <div>
+          <h1 className="text-xl font-bold">All Tickets</h1>
+          <p className="text-sm text-gray-500">{tickets.length} ticket(s) loaded</p>
+        </div>
+        <div className="grid grid-cols-3 gap-3 text-center sm:grid-cols-4">
+          <div className="rounded-xl border bg-white px-4 py-3">
+            <p className="text-xs uppercase tracking-wide text-gray-500">Open</p>
+            <p className="mt-1 text-lg font-semibold text-yellow-600">{statusCounts.Open}</p>
+          </div>
+          <div className="rounded-xl border bg-white px-4 py-3">
+            <p className="text-xs uppercase tracking-wide text-gray-500">In Progress</p>
+            <p className="mt-1 text-lg font-semibold text-blue-600">{statusCounts["In Progress"]}</p>
+          </div>
+          <div className="rounded-xl border bg-white px-4 py-3">
+            <p className="text-xs uppercase tracking-wide text-gray-500">Closed</p>
+            <p className="mt-1 text-lg font-semibold text-green-600">{statusCounts.Closed}</p>
+          </div>
+          <div className="rounded-xl border bg-white px-4 py-3">
+            <p className="text-xs uppercase tracking-wide text-gray-500">Total</p>
+            <p className="mt-1 text-lg font-semibold text-gray-900">{tickets.length}</p>
+          </div>
+        </div>
       </div>
 
       <SearchFilter
@@ -50,6 +83,7 @@ export default function Home() {
         setSearch={setSearch}
         status={status}
         setStatus={setStatus}
+        onReset={resetFilters}
       />
 
       {error && (

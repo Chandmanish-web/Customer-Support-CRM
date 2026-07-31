@@ -12,8 +12,10 @@
       - key: CLIENT_ORIGIN
         sync: false
 
-staticSites:
-  - name: crm-frontend
+  - type: web
+    name: crm-frontend
+    runtime: static
+    plan: free
     branch: main
     rootDir: frontend
     buildCommand: npm install && npm run build

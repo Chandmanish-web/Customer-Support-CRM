@@ -1,0 +1,43 @@
+# Local development only. This compose file is NOT used for Render deployment.
+version: "3.9"
+services:
+  mongo:
+    image: mongo:7
+    restart: unless-stopped
+    volumes:
+      - mongo-data:/data/db
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_DATABASE: crm_db
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+      args:
+        PORT: 5000
+    depends_on:
+      - mongo
+    environment:
+      PORT: 5000
+      MONGO_URI: mongodb://mongo:27017/crm_db?retryWrites=true&w=majority
+      CLIENT_ORIGIN: http://localhost:5173
+    ports:
+      - "5000:5000"
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        PORT: 4173
+    depends_on:
+      - backend
+    environment:
+      PORT: 4173
+    ports:
+      - "5173:4173"
+
+volumes:
+  mongo-data:

@@ -1,27 +1,23 @@
-# Render blueprint for deploying backend and frontend.
-services:
-  - type: web_service
+﻿services:
+  - type: web
     name: crm-backend
-    env: docker
+    runtime: docker
     plan: free
     branch: main
-    dockerfilePath: backend/Dockerfile
+    rootDir: backend
+    dockerfilePath: ./Dockerfile
     envVars:
       - key: MONGO_URI
-        value: <replace-with-your-atlas-uri>
+        sync: false
       - key: CLIENT_ORIGIN
-        value: <replace-with-your-frontend-url>
-      - key: PORT
-        value: <replace-with-optional-port>
+        sync: false
 
-  - type: static_site
-    name: crm-frontend
-    env: static
-    plan: free
+staticSites:
+  - name: crm-frontend
     branch: main
-    rootDirectory: frontend
+    rootDir: frontend
     buildCommand: npm install && npm run build
-    publishPath: dist
+    staticPublishPath: dist
     envVars:
       - key: VITE_API_URL
-        value: <replace-with-backend-url>/api
+        sync: false

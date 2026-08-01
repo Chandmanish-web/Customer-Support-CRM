@@ -120,3 +120,46 @@ Make sure Render environment variables are set for:
 ## Notes
 
 This scaffold covers the required schema, all 4 REST endpoints, and all core UI flows. Before submitting, review each file, adjust styling/validation to your taste, and make sure you can explain every part of it — that's part of the evaluation.
+
+## Pre-submit Checklist
+
+Before submitting, check for these:
+
+1. **README**
+
+- Project overview
+- Features
+- Tech stack
+- Installation steps
+- Screenshots
+- Demo link
+- Environment variables (without secrets)
+
+2. **Authentication**
+
+- Secure login
+- Password hashing
+- Protected routes
+- JWT/session management
+
+3. **Error handling**
+
+- Friendly error messages
+- Loading states
+- Empty-state UI
+
+4. **Responsive design**
+
+- Works well on phones and tablets.
+
+5. **Code quality**
+
+- Clear folder structure
+- Reusable components
+- Consistent naming
+- No unused code
+
+6. **Deployment**
+
+- Ensure frontend and backend are both working.
+- Check that APIs respond correctly and there are no CORS issues.

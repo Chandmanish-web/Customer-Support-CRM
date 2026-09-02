@@ -32,10 +32,12 @@ services:
       dockerfile: Dockerfile
       args:
         PORT: 4173
+        VITE_API_URL: http://localhost:5000/api
     depends_on:
       - backend
     environment:
       PORT: 4173
+      VITE_API_URL: http://localhost:5000/api
     ports:
       - "5173:4173"
 
